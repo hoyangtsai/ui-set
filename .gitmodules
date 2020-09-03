@@ -1,0 +1,3 @@
+[submodule "src/fit_ui"]
+	path = src/fit_ui
+	url = http://git.code.oa.com/G_FIT_AM_DEV/fit_ui.git
