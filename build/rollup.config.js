@@ -5,6 +5,7 @@ import vue from 'rollup-plugin-vue';
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+import postcss from 'rollup-plugin-postcss';
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
@@ -30,6 +31,7 @@ const baseConfig = {
         resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
         entries: {
           '@': path.resolve(projectRoot, 'src'),
+          'fitTheme': path.resolve(projectRoot, 'src/fit_ui/src/themes')
         },
       }),
     ],
@@ -159,11 +161,30 @@ const buildFormats = [];
 //   buildFormats.push(unpkgConfig);
 // }
 
-const componentPath = path.resolve(projectRoot, 'src/components');
+// const componentPath = path.resolve(projectRoot, 'src/components');
 
-const FiTUISrcPath = path.resolve(projectRoot, 'src/fit-ui/src');
-const componentFiles = glob.sync(`${FiTUISrcPath}/**/*.vue`);
-
+const FiTUISrcPath = path.resolve(projectRoot, 'src/fit_ui/src');
+const componentFiles = glob.sync(`${FiTUISrcPath}/components/**/*.vue`, {
+  ignore: [
+    '**/button/*.vue',
+    '**/action-sheet*/*.vue',
+    '**/html2canvas/*.vue',
+    '**/swiper/*.vue',
+    '**/scroll-index-search/*.vue',
+    '**/scroll-view/*.vue',
+    '**/upload-image/*.vue',
+    '**/top-inform/*.vue',
+    '**/card-list/*.vue',
+    '**/page-status/*.vue',
+    '**/check-list/*.vue',
+    '**/filtrate/*.vue',
+    '**/pay-dialog/*.vue',
+    '**/loading/*.vue',
+    '**/list/*.vue',
+    '**/password/*.vue',
+    '**/form*/*.vue',
+  ]
+});
 const templPath = path.resolve(projectRoot, 'template/entry.js');
 
 String.prototype.capitalize = function() {
@@ -171,13 +192,12 @@ String.prototype.capitalize = function() {
 }
 
 async function writeEntry() {
-  console.log('componentFiles =>', componentFiles);
   await componentFiles.forEach(file => {
-    const componentTagName = path.dirname(file).split('/').pop();
+    const componentDir = path.dirname(file).split('/').pop();
     const componentBase = path.basename(file);
-    const componentName = componentTagName.split('-').map(s => s.capitalize()).join('');
+    const componentName = componentDir.split('-').map(s => s.capitalize()).join('');
 
-    await copyTemplate(
+    copyTemplate(
       path.dirname(file),
       'entry.js',
       templPath,
@@ -192,7 +212,7 @@ async function writeEntry() {
         },
         {
           match: /{{=ComponentTagName}}/g,
-          replace: componentTagName
+          replace: `${componentName}.name`
         },
       ]
     )
@@ -203,7 +223,7 @@ async function writeEntry() {
       external,
       output: {
         compact: true,
-        file: `dist/${componentName}.umd.js`,
+        file: `dist/${componentDir}.umd.js`,
         format: 'umd',
         exports: 'named',
         name: componentName,
@@ -219,6 +239,9 @@ async function writeEntry() {
           output: {
             ecma: 5,
           },
+        }),
+        postcss({
+          extensions: ['.css']
         }),
       ],
     };

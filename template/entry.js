@@ -5,7 +5,7 @@ import {{=ComponentName}} from '{{=ComponentPath}}';
 const install = function installTabPage(Vue) {
   if (install.installed) return;
   install.installed = true;
-  Vue.component('{{=ComponentTagName}}', {{=ComponentName}});
+  Vue.component({{=ComponentTagName}}, {{=ComponentName}});
 };
 
 // Create module definition for Vue.use()
