@@ -28,10 +28,10 @@ const baseConfig = {
   plugins: {
     preVue: [
       alias({
-        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+        resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.css'],
         entries: {
           '@': path.resolve(projectRoot, 'src'),
-          'fitTheme': path.resolve(projectRoot, 'src/fit_ui/src/themes')
+          'fitTheme': path.resolve(projectRoot, 'src/fit_ui/src/themes/default')
         },
       }),
     ],

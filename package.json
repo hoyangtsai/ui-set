@@ -41,5 +41,6 @@
   "engines": {
     "node": ">=10"
   },
-  "author": "keithytsai"
+  "author": "keithytsai",
+  "license": "ISC"
 }
