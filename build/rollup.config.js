@@ -22,6 +22,7 @@ const esbrowserslist = fs.readFileSync('./.browserslistrc')
 const argv = minimist(process.argv.slice(2));
 
 const projectRoot = path.resolve(__dirname, '..');
+const projectSrc = path.resolve(__dirname, '../src');
 
 const baseConfig = {
   // input: 'src/entry.js',
@@ -135,68 +136,47 @@ const buildFormats = [];
 //   buildFormats.push(umdConfig);
 // }
 
-// if (!argv.format || argv.format === 'iife') {
-//   const unpkgConfig = {
-//     ...baseConfig,
-//     external,
-//     output: {
-//       compact: true,
-//       file: 'dist/qr-code.min.js',
-//       format: 'iife',
-//       name: 'window',
-//       exports: 'named',
-//       globals,
-//     },
-//     plugins: [
-//       replace(baseConfig.plugins.replace),
-//       ...baseConfig.plugins.preVue,
-//       vue(baseConfig.plugins.vue),
-//       babel(baseConfig.plugins.babel),
-//       commonjs(),
-//       terser({
-//         output: {
-//           ecma: 5,
-//         },
-//       }),
-//     ],
-//   };
-//   buildFormats.push(unpkgConfig);
-// }
+const FiTUISrc = path.resolve(projectSrc, 'fit_ui/src');
+const FitUIComponents = [
+  path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
+];
+const mobileComponents = [
+  path.resolve(projectSrc, 'mobile/sector/sector.vue'),
+];
+// const componentFiles = glob.sync(`${FiTUISrc}/components/**/*.vue`, {
+//   ignore: [
+//     '**/button/*.vue',
+//     '**/action-sheet*/*.vue',
+//     '**/html2canvas/*.vue',
+//     '**/swiper/*.vue',
+//     '**/scroll-index-search/*.vue',
+//     '**/scroll-view/*.vue',
+//     '**/upload-image/*.vue',
+//     '**/top-inform/*.vue',
+//     '**/card-list/*.vue',
+//     '**/page-status/*.vue',
+//     '**/check-list/*.vue',
+//     '**/filtrate/*.vue',
+//     '**/pay-dialog/*.vue',
+//     '**/loading/*.vue',
+//     '**/list/*.vue',
+//     '**/password/*.vue',
+//     '**/form*/*.vue',
+//     '**/bar-code*/*.vue',
+//     '**/key-board*/*.vue',
+//     '**/picker*/*.vue',
+//     '**/popup*/*.vue',
+//     '**/promote*/*.vue',
+//     '**/quick-link*/*.vue',
+//     '**/search*/*.vue',
+//     '**/select*/*.vue',
+//     '**/sms-input*/*.vue',
+//     '**/step*/*.vue',
+//   ]
+// });
 
-// const componentPath = path.resolve(projectRoot, 'src/components');
+const componentFiles = [].concat(FitUIComponents, mobileComponents);
 
-const FiTUISrcPath = path.resolve(projectRoot, 'src/fit_ui/src');
-const componentFiles = glob.sync(`${FiTUISrcPath}/components/**/*.vue`, {
-  ignore: [
-    '**/button/*.vue',
-    '**/action-sheet*/*.vue',
-    '**/html2canvas/*.vue',
-    '**/swiper/*.vue',
-    '**/scroll-index-search/*.vue',
-    '**/scroll-view/*.vue',
-    '**/upload-image/*.vue',
-    '**/top-inform/*.vue',
-    '**/card-list/*.vue',
-    '**/page-status/*.vue',
-    '**/check-list/*.vue',
-    '**/filtrate/*.vue',
-    '**/pay-dialog/*.vue',
-    '**/loading/*.vue',
-    '**/list/*.vue',
-    '**/password/*.vue',
-    '**/form*/*.vue',
-    '**/bar-code*/*.vue',
-    '**/key-board*/*.vue',
-    '**/picker*/*.vue',
-    '**/popup*/*.vue',
-    '**/promote*/*.vue',
-    '**/quick-link*/*.vue',
-    '**/search*/*.vue',
-    '**/select*/*.vue',
-    '**/sms-input*/*.vue',
-    '**/step*/*.vue',
-  ]
-});
 const templPath = path.resolve(projectRoot, 'template/entry.js');
 
 String.prototype.capitalize = function() {
@@ -208,57 +188,62 @@ async function writeEntry() {
     const componentDir = path.dirname(file).split('/').pop();
     const componentBase = path.basename(file);
     const componentName = componentDir.split('-').map(s => s.capitalize()).join('');
-
-    copyTemplate(
-      path.dirname(file),
-      'entry.js',
-      templPath,
-      [
-        {
-          match: /{{=ComponentName}}/g,
-          replace: componentName
-        },
-        { 
-          match: /{{=ComponentPath}}/g,
-          replace: `./${componentBase}`
-        },
-        {
-          match: /{{=ComponentTagName}}/g,
-          replace: `${componentName}.name`
-        },
-      ]
-    )
     
-    const unpkgConfig = {
-      input: path.dirname(file) + '/entry.js',
-      ...baseConfig,
-      external,
-      output: {
-        compact: true,
-        file: `dist/${componentDir}.umd.js`,
-        format: 'umd',
-        exports: 'named',
-        name: componentName,
-        globals,
-      },
-      plugins: [
-        replace(baseConfig.plugins.replace),
-        ...baseConfig.plugins.preVue,
-        vue(baseConfig.plugins.vue),
-        babel(baseConfig.plugins.babel),
-        commonjs(),
-        terser({
-          output: {
-            ecma: 5,
+    if (fs.existsSync(file)) {
+      copyTemplate(
+        path.dirname(file),
+        'entry.js',
+        templPath,
+        [
+          {
+            match: /{{=ComponentName}}/g,
+            replace: componentName
           },
-        }),
-        postcss({
-          extensions: ['.css']
-        }),
-      ],
-    };
+          { 
+            match: /{{=ComponentPath}}/g,
+            replace: `./${componentBase}`
+          },
+          {
+            match: /{{=ComponentTagName}}/g,
+            replace: `${componentName}.name`
+          },
+        ]
+      )
+    }
 
-    buildFormats.push(unpkgConfig);
+    const entryFile = path.dirname(file) + '/entry.js';
+    if (fs.existsSync(entryFile)) {
+      const unpkgConfig = {
+        input: entryFile,
+        ...baseConfig,
+        external,
+        output: {
+          compact: true,
+          file: `dist/${componentDir}.umd.js`,
+          format: 'umd',
+          exports: 'named',
+          name: componentName,
+          globals,
+        },
+        plugins: [
+          replace(baseConfig.plugins.replace),
+          ...baseConfig.plugins.preVue,
+          vue(baseConfig.plugins.vue),
+          babel(baseConfig.plugins.babel),
+          commonjs(),
+          terser({
+            output: {
+              ecma: 5,
+            },
+          }),
+          postcss({
+            extensions: ['.css']
+          }),
+        ],
+      };
+  
+      buildFormats.push(unpkgConfig);
+    }
   });
 }
 
