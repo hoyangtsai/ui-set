@@ -1,3 +1,6 @@
 [submodule "src/fit_ui"]
 	path = src/fit_ui
 	url = http://git.code.oa.com/G_FIT_AM_DEV/fit_ui.git
+[submodule "src/tdesign-mobile-vue"]
+	path = src/tdesign-mobile-vue
+	url = http://git.code.oa.com/TDesign/tdesign-mobile-vue.git

@@ -6,10 +6,12 @@ import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import postcss from 'rollup-plugin-postcss';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
-import glob from 'glob';
+// import typescript from 'rollup-plugin-typescript2';
+
+// import glob from 'glob';
 
 const copyTemplate = require('./helper/copyTemplate.js');
 
@@ -191,9 +193,9 @@ async function writeEntry() {
     
     if (fs.existsSync(file)) {
       copyTemplate(
-        path.dirname(file),
-        'entry.js',
-        templPath,
+        path.dirname(file), // output dir
+        'entry.js', // output file name
+        templPath, // template file path
         [
           {
             match: /{{=ComponentName}}/g,
