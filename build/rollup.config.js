@@ -16,10 +16,10 @@ import minimist from 'minimist';
 const copyTemplate = require('./helper/copyTemplate.js');
 
 // Get browserslist config and remove ie from es build targets
-const esbrowserslist = fs.readFileSync('./.browserslistrc')
-  .toString()
-  .split('\n')
-  .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
+// const esbrowserslist = fs.readFileSync('./.browserslistrc')
+//   .toString()
+//   .split('\n')
+//   .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
 
 const argv = minimist(process.argv.slice(2));
 
@@ -140,10 +140,12 @@ const buildFormats = [];
 
 const FiTUISrc = path.resolve(projectSrc, 'fit_ui/src');
 const FitUIComponents = [
-  path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
+  // path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
+  // path.resolve(FiTUISrc, 'components/tab-page/tab-page.vue'),
 ];
 const mobileComponents = [
   path.resolve(projectSrc, 'mobile/sector/sector.vue'),
+  path.resolve(projectSrc, 'mobile/notice-bar/notice-bar.vue'),
 ];
 // const componentFiles = glob.sync(`${FiTUISrc}/components/**/*.vue`, {
 //   ignore: [

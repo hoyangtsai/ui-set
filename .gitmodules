@@ -4,3 +4,6 @@
 [submodule "src/tdesign-mobile-vue"]
 	path = src/tdesign-mobile-vue
 	url = http://git.code.oa.com/TDesign/tdesign-mobile-vue.git
+[submodule "src/utils/rem"]
+	path = src/utils/rem
+	url = http://git.code.oa.com/G_FIT_AM_DEV/h5_rem_adapter_pro.git
