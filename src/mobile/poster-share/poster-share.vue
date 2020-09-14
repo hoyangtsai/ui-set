@@ -1,17 +1,18 @@
 <template>
-  <div class="poster-share" v-show="isActive">
-    <div class="poster-share__mask"></div>
+  <div class="poster-share" v-if="isActive">
+    <div class="poster-share__mask" @click="closePosterShare"></div>
     <div class="poster-share__contain">
       <div class="poster-share__img-wrap" ref="imgWrap">
         <slot></slot>
       </div>
     </div>
-    <div class="poster-share__snapshot">
+    <div class="poster-share__snapshot"
+      @touchstart="onPosterTouchstart"
+      @touchend="onPosterTouchend">
       <img
         ref="shareImg"
         style="opacity: 0;"
-        @touchstart="onPosterTouchstart"
-        @touchend="onPosterTouchend"
+        crossorigin="anonymous"
       />
     </div>
   </div>
@@ -26,13 +27,13 @@ export default {
   watch: {},
   data() {
     return {
-      touchTimestap: 0,
+      touchTimestamp: 0,
       longTapThreshold: 300,
       isActive: false,
     };
   },
   methods: {
-    closePopShare: function() {
+    closePosterShare: function() {
       this.isActive = false;
     },
     createPoster: function() {
@@ -68,17 +69,17 @@ export default {
       });
     },
     onPosterTouchstart: function() {
-      this.touchTimestap = new Date().getTime();
+      this.touchTimestamp = new Date().getTime();
     },
     onPosterTouchend: function() {
-      if (this.touchTimestap === 0) {
-        this.closePopShare();
+      if (!this.touchTimestamp || this.touchTimestamp === 0) {
+        this.closePosterShare();
         return;
       }
       var now = new Date().getTime();
       var timeDiff = now - this.touchTimestamp;
       if (timeDiff < this.longTapThreshold) {
-        this.closePopShare();
+        this.closePosterShare();
       }
       this.touchTimestamp = 0;
     },
@@ -111,6 +112,7 @@ export default {
     position: relative;
     padding-top: 133.33%;
     transform: scale(.8);
+    background-color: rgba(60, 60, 60, 0.8);
   }
 
   &__snapshot {
