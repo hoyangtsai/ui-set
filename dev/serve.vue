@@ -247,7 +247,7 @@ export default Vue.extend({
       if (item.type == 1) {
         return {
           text: `${item.user} 参与智富计划，获得 ${item.prize} 元理财红包`,
-          buttonText: "我也要",
+          // buttonText: "我也要",
         };
       } else {
         return {
@@ -266,7 +266,9 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <notice-bar :list="list"></notice-bar>
+    <notice-bar :list="list">
+      <i slot="icon" class="icon-horn"></i>
+    </notice-bar>
 
     <poster-share ref="posterShare">
       <div class="pop-bd">
@@ -315,9 +317,17 @@ html, body {
   padding: 0;
 }
 body {
-  background: rgb(12, 138, 255);
+  background: #000103;
+  color: rgba(81, 81, 81, 0.733);
 }
 
+.icon-horn {
+  display: inline-block;
+  width: .31rem;
+  height: .27rem;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAbCAMAAACz4aQdAAAAh1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9qkf8RAAAALHRSTlMARdp6BncDcBcS8ce3LB4MCe7i3tO9nVBJMSP69+fCv6ijmJSKgFPNjGdePl9lTcwAAADsSURBVCjPfdBXdoMwFEXRG1Aw3bj37jjtzH98IfowAgvOB7DYeksgdVqtNZC5QNHPcQa89fJmytPjxTnpbp3S+APm7QUhOG4WkNunqDLGRNWFpz8X/NT37RQn68k8+JXiCdNIGvHiBezX0jus6uuL25lJonjH0uv2ZShlBD1uDmTSDSK/K2di/zju8SU7+xlbhV4/cZA+IPH7OCWXrhD5/Q7f0idzeT2EWaUSrt7zG0O6qbe3a+M8+G/mzt9ONZcpgZpGjduqDB5yWqeuR0c4q1Uxc7yAbKx2ydGZv3/V3MksrQ80Yl9qqHKrVn+NNT21xSR9VQAAAABJRU5ErkJggg==') no-repeat center;
+  background-size: contain;
+}
 
 .pop-bd{
   position: absolute;

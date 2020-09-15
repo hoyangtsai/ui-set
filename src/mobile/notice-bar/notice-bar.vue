@@ -1,6 +1,8 @@
 <template>
   <div class="notice-bar" v-if="list.length > 0">
-    <!-- <i class="icon icon-horn"></i> -->
+    <div class="notice-bar__icon">
+      <slot name="icon"></slot>
+    </div>
     <div class="notice-bar__wrap">
       <transition name="slide">
         <div v-if="isShow" class="notice-bar__content">
@@ -28,15 +30,7 @@ export default {
       type: Array,
       default: () => {
         return [];
-      },
-      backgroundColor: {
-        type: String,
-        default: '',
-      },
-      textColor: {
-        type: String,
-        default: '',
-      },
+      },      
     },
   },
   watch: {
@@ -92,8 +86,6 @@ export default {
   display: flex;
   align-items: center;
   background: #FFFFFF;
-  // border-radius: 18px;
-  // padding: 0 10px 0 14px;
   border-radius: .36rem;
   padding: 0 .2rem 0 .28rem;
   box-sizing: border-box;
@@ -105,9 +97,6 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     color: #303030;
-    // font-size: 11px;
-    // height: 31px;
-    // line-height: 31px;
     font-size: .22rem;
     height: .62rem;
     line-height: .62rem;
@@ -124,17 +113,10 @@ export default {
     animation: slideOut 0.3s linear;
   }
 
-  // .icon {
-  //   margin-right: 16px;
-  //   &.icon-horn {
-  //     flex: 0 0 27px;
-  //     width: 27px;
-  //     height: 24px;
-  //     &:before {
-  //       font-size: 27px;
-  //     }
-  //   }
-  // }
+  &__icon {
+    margin-right: .16rem;
+    height: .62rem;
+  }
 
   &__content {
     width: 100%;
@@ -150,13 +132,8 @@ export default {
   }
 
   &__btn {
-    // font-size: 11px;
-    // line-height: 15px;
     color: #0056f3;
     border: 1px solid #0056f3;
-    // padding: 4px 8px;
-    // margin-left: 0.5em;
-    // border-radius: 12px;
     font-size: .22rem;
     line-height: .3rem;
     color: #0056F3;

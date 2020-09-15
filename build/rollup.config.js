@@ -140,7 +140,7 @@ const buildFormats = [];
 
 const FiTUISrc = path.resolve(projectSrc, 'fit_ui/src');
 const FitUIComponents = [
-  // path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
+  path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
   // path.resolve(FiTUISrc, 'components/tab-page/tab-page.vue'),
 ];
 const mobileComponents = [
