@@ -11,6 +11,8 @@ import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 // import typescript from 'rollup-plugin-typescript2';
 
+const postcssConfig = require('../postcss.config.js');
+
 // import glob from 'glob';
 
 const copyTemplate = require('./helper/copyTemplate.js');
@@ -61,7 +63,8 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
-  'vue-i18n'
+  'vue-i18n',
+  'html2canvas',
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -71,6 +74,7 @@ const globals = {
   // eg. jquery: '$'
   vue: 'Vue',
   'vue-i18n': 'VueI18n',
+  'html2canvas': 'html2canvas'
 };
 
 // Customize configs for individual targets
@@ -141,11 +145,12 @@ const buildFormats = [];
 const FiTUISrc = path.resolve(projectSrc, 'fit_ui/src');
 const FitUIComponents = [
   path.resolve(FiTUISrc, 'components/qr-code/qr-code.vue'),
-  // path.resolve(FiTUISrc, 'components/tab-page/tab-page.vue'),
+  path.resolve(FiTUISrc, 'components/dialog/dialog.vue'),
 ];
 const mobileComponents = [
-  path.resolve(projectSrc, 'mobile/sector/sector.vue'),
+  // path.resolve(projectSrc, 'mobile/sector/sector.vue'),
   path.resolve(projectSrc, 'mobile/notice-bar/notice-bar.vue'),
+  path.resolve(projectSrc, 'mobile/poster-share/poster-share.vue'),
 ];
 // const componentFiles = glob.sync(`${FiTUISrc}/components/**/*.vue`, {
 //   ignore: [
@@ -241,7 +246,9 @@ async function writeEntry() {
             },
           }),
           postcss({
-            extensions: ['.css']
+            extract: false,
+            extensions: ['.css'],
+            plugins: postcssConfig.plugins,
           }),
         ],
       };

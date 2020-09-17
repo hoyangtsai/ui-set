@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import html2canvas from "../../utils/html2canvas";
+import html2canvas from "html2canvas";
 
 export default {
   name: 'poster-share',
@@ -90,6 +90,13 @@ export default {
 <style lang="scss" scoped>
 
 .poster-share {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 500;
+
   &__mask {
     background: rgba(0, 0, 0, 0.6);
     position: fixed;
@@ -103,16 +110,19 @@ export default {
   &__contain {
     position: absolute;
     left: 0;
-    top: 15%;
+    top: 0;
     width: 100%;
     z-index: 110;
+    bottom: 0;
   }
 
   &__img-wrap {
     position: relative;
-    padding-top: 133.33%;
-    transform: scale(.8);
     background-color: rgba(60, 60, 60, 0.8);
+    // padding-top: 133.33%;
+    // padding-top: 177.77%;
+    // transform: scale(0.8);
+    // transform-origin: left top;
   }
 
   &__snapshot {
