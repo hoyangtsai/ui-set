@@ -1,0 +1,9 @@
+[submodule "src/fit_ui"]
+	path = src/fit_ui
+	url = https://github.com/hoyangtsai/fit_ui.git
+[submodule "src/utils/rem"]
+	path = src/utils/rem
+	url = https://github.com/hoyangtsai/rem.git
+[submodule "src/tdesign-mobile-vue"]
+	path = src/tdesign-mobile-vue
+	url = https://github.com/Tencent/tdesign-mobile-vue.git
