@@ -1,6 +1,3 @@
-const packageJson = require('./package.json');
-const browsers = packageJson.browserslist || ['last 4 version'];
-
 module.exports = {
   syntax: require('postcss-scss'),
   plugins: [
@@ -12,15 +9,13 @@ module.exports = {
         return true;
       },
     }),
-    require('postcss-strip-inline-comments'),
     require('postcss-assets')({}),
-    require('postcss-inline-svg')({}),
-    require('postcss-nested'),
-    require('postcss-cssnext')({
-      browsers,
+    require('postcss-preset-env')({ 
+      /* use stage 3 features + css nesting rules */
+      stage: 3,
       features: {
-        rem: false,
-      },
-    }),
+        'nesting-rules': true
+      }
+     }),
   ],
 };
