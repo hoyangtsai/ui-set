@@ -19,14 +19,15 @@
     "html2canvas": "^1.0.0-rc.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.9.5",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.2",
-    "@vue/cli-plugin-babel": "^5.0.1",
+    "@vue/babel-preset-app": "^5.0.8",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-service": "^5.0.4",
     "@vue/compiler-sfc": "^3.0.0-rc.5",
     "cross-env": "^7.0.2",
@@ -55,6 +56,9 @@
   "engines": {
     "node": ">=10"
   },
-  "author": "keithytsai",
+  "resolutions": {
+    "**/semver": ">=6.3.1"
+  },
+  "author": "hoyangtsai",
   "license": "ISC"
 }
